@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,16 @@ class LoginPage extends StatelessWidget {
                   const TextField(
                     decoration: InputDecoration(
                       labelText: 'Username',
-                      prefixIcon: Icon(Icons.email),
-                      suffixIcon: Icon(Icons.check_circle, color: Colors.green),
                       border: OutlineInputBorder(),
+                      suffixIcon: Icon(Icons.check_circle, color: Colors.green),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Full Name',
+                      border: OutlineInputBorder(),
+                      suffixIcon: Icon(Icons.check_circle, color: Colors.green),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -42,17 +49,20 @@ class LoginPage extends StatelessWidget {
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      prefixIcon: Icon(Icons.lock),
                       border: OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: const Text("Forgot Password?"),
-                    ),
+                  Row(
+                    children: [
+                      Checkbox(value: false, onChanged: (val) {}),
+                      const Text("Remember me"),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text("Forgot Password?"),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
@@ -65,20 +75,20 @@ class LoginPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, '/dashboard');
                     },
-                    child: const Text("Login"),
+                    child: const Text("Sign up"),
                   ),
-                  const SizedBox(height: 20),
-                  const Center(child: Text("Don't have an account?",style: TextStyle(fontFamily:'Opensans Bold'),)),
-                  TextButton(
+                  const SizedBox(height: 10),
+                  const Center(child: Text("Already have an account?")),
+                  OutlinedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/signup');
+                      Navigator.pushNamed(context, '/login');
                     },
-                    child: const Text("Sign up here"),
+                    child: const Text("Login here"),
                   )
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
