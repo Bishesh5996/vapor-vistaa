@@ -17,9 +17,9 @@ class AppTheme {
       // Change app bar color
       appBarTheme: const AppBarTheme(
         elevation: 0,
-        backgroundColor: ThemeConstant.appBarColor,
+        backgroundColor: Color.fromARGB(255, 171, 208, 172),
         centerTitle: true,
-        titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+        titleTextStyle: TextStyle(color: Color.fromARGB(255, 234, 102, 102), fontSize: 20),
       ),
 
       // Scaffold theme
@@ -30,7 +30,7 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           foregroundColor: Colors.white,
-          backgroundColor: ThemeConstant.primaryColor,
+          backgroundColor: const Color.fromARGB(255, 76, 119, 175),
           textStyle: const TextStyle(fontSize: 20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -56,9 +56,10 @@ class AppTheme {
       ),
       //Bottom navigation bar theme
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: ThemeConstant.primaryColor,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black,
+        backgroundColor: Color.fromARGB(255, 171, 208, 172),
+        selectedIconTheme: IconThemeData(color: Colors.white, size: 30),
+        unselectedIconTheme: IconThemeData(color: Colors.black, size: 30),
+        
         type: BottomNavigationBarType.fixed,
         elevation: 0,
       ),

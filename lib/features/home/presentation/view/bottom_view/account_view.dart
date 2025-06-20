@@ -9,7 +9,7 @@ class AccountView extends StatelessWidget {
     return SizedBox.expand(
       child: Center(
         child: Text(
-          'Account View',
+          'PROFILE',
           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),

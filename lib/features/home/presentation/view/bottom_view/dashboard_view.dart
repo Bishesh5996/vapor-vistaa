@@ -8,7 +8,7 @@ class DashboardView extends StatelessWidget {
     return SizedBox.expand(
       child: Center(
         child: Text(
-          'Dashboard View',
+          'WELCOME TO VAPOR VISTAA',
           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
