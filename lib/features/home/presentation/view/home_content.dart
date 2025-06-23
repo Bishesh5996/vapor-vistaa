@@ -12,35 +12,40 @@ class HomeContent extends StatelessWidget {
       'location': 'Nepal',
       'price': '\$40 /visit',
       'rating': '4.5',
-      'image': 'https://i.pinimg.com/736x/86/82/e1/8682e16c492f150bd46e07e421adf5f2.jpg'
+      'image': 'https://i.pinimg.com/736x/86/82/e1/8682e16c492f150bd46e07e421adf5f2.jpg',
+      'description': 'Known as the "Queen of Lakes," Rara is the largest lake in Nepal. Surrounded by lush forests, it offers a tranquil retreat with stunning reflections of the Himalayas.'
     },
     {
       'title': 'Tilicho Lake',
       'location': 'Nepal',
       'price': '\$40 /visit',
       'rating': '4.5',
-      'image': 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?w=800'
+      'image': 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?w=800',
+      'description': 'One of the highest lakes in the world, Tilicho is a breathtaking turquoise gem nestled in the Annapurna mountain range. A challenging yet rewarding trek for adventurers.'
     },
     {
       'title': 'Shey-Phoksundo Lake',
       'location': 'Nepal',
       'price': '\$40 /visit',
       'rating': '4.5',
-      'image': 'https://i.pinimg.com/736x/eb/01/e5/eb01e564d2fc2b5c4c64ef7da9f1480b.jpg'
+      'image': 'https://i.pinimg.com/736x/eb/01/e5/eb01e564d2fc2b5c4c64ef7da9f1480b.jpg',
+      'description': 'A sacred alpine lake with mesmerizing deep blue waters, located in the remote Dolpo region. Its unique beauty and cultural significance make it a must-see destination.'
     },
     {
       'title': 'Annapurna Base Camp',
       'location': 'Nepal',
       'price': '\$60 /visit',
       'rating': '4.8',
-      'image': 'https://i.pinimg.com/736x/91/51/51/9151510b07cc9fc508a9b57b95d0d766.jpg'
+      'image': 'https://i.pinimg.com/736x/91/51/51/9151510b07cc9fc508a9b57b95d0d766.jpg',
+      'description': 'Trek through diverse landscapes to the base of the majestic Annapurna massif. This classic trek offers unparalleled mountain views and a deep cultural experience.'
     },
     {
       'title': 'Gokyo Lakes',
       'location': 'Nepal',
       'price': '\$55 /visit',
       'rating': '4.7',
-      'image': 'https://i.pinimg.com/736x/98/5f/40/985f40989da0986230256187a45cc471.jpg'
+      'image': 'https://i.pinimg.com/736x/98/5f/40/985f40989da0986230256187a45cc471.jpg',
+      'description': 'A series of six spectacular glacial lakes in the Sagarmatha National Park. The trek to Gokyo Ri offers panoramic views of Everest and surrounding peaks.'
     },
   ];
 
