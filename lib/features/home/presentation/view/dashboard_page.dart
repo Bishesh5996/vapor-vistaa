@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trek/features/booking/presentation/view/bookings_page.dart';
-import 'package:trek/features/chat/presentation/view/chat_page.dart';
 import 'package:trek/features/home/presentation/view/home_content.dart';
-import 'package:trek/features/location/presentation/view/location_page.dart';
 import 'package:trek/features/profile/presentation/view/profile_page.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -17,9 +15,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   final List<Widget> _pages = [
     const HomeContent(),
-    const LocationPage(),
     const BookingsPage(),
-    const ChatPage(),
     const ProfilePage(),
   ];
 
@@ -58,6 +54,25 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _selectedIndex == 0
+          ? AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              title: const Row(
+                children: [
+                  Icon(Icons.location_on_outlined, color: Colors.black),
+                  SizedBox(width: 4),
+                  Text("Kathmandu, Nepal", style: TextStyle(color: Colors.black, fontSize: 16)),
+                ],
+              ),
+              actions: const [
+                Padding(
+                  padding: EdgeInsets.only(right: 16.0),
+                  child: Icon(Icons.notifications, color: Colors.black),
+                )
+              ],
+            )
+          : null,
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
@@ -74,16 +89,8 @@ class _DashboardPageState extends State<DashboardPage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.location_on),
-            label: 'Location',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.book_online),
             label: 'Bookings',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble),
-            label: 'Chat',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

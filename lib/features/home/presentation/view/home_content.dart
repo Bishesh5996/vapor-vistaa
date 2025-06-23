@@ -19,7 +19,7 @@ class HomeContent extends StatelessWidget {
       'location': 'Nepal',
       'price': '\$40 /visit',
       'rating': '4.5',
-      'image': 'https://i.pinimg.com/736x/6e/75/54/6e7554806054be9939fd9ee89c632e21.jpg'
+      'image': 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?w=800'
     },
     {
       'title': 'Shey-Phoksundo Lake',
@@ -28,207 +28,215 @@ class HomeContent extends StatelessWidget {
       'rating': '4.5',
       'image': 'https://i.pinimg.com/736x/eb/01/e5/eb01e564d2fc2b5c4c64ef7da9f1480b.jpg'
     },
+    {
+      'title': 'Annapurna Base Camp',
+      'location': 'Nepal',
+      'price': '\$60 /visit',
+      'rating': '4.8',
+      'image': 'https://i.pinimg.com/736x/91/51/51/9151510b07cc9fc508a9b57b95d0d766.jpg'
+    },
+    {
+      'title': 'Gokyo Lakes',
+      'location': 'Nepal',
+      'price': '\$55 /visit',
+      'rating': '4.7',
+      'image': 'https://i.pinimg.com/736x/98/5f/40/985f40989da0986230256187a45cc471.jpg'
+    },
+  ];
+
+  final List<Map<String, String>> featuredPackages = const [
+    {
+      'title': 'Everest Base Camp',
+      'location': 'Khumbu, Nepal',
+      'duration': '14 days',
+      'image': 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=800',
+    },
+    {
+      'title': 'Annapurna Circuit',
+      'location': 'Annapurna, Nepal',
+      'duration': '18 days',
+      'image': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+    }
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Row(
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      children: [
+        const SizedBox(height: 10),
+        Row(
           children: [
-            Icon(Icons.location_on_outlined, color: Colors.black),
-            SizedBox(width: 4),
-            Text("Kathmandu, Nepal", style: TextStyle(color: Colors.black, fontSize: 16)),
-          ],
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: Icon(Icons.notifications, color: Colors.black),
-          )
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        children: [
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 0),
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
                   ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 0),
                 ),
               ),
-              const SizedBox(width: 10),
-              Container(
+            ),
+            const SizedBox(width: 10),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.redAccent,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.all(12),
+              child: const Icon(Icons.tune, color: Colors.white),
+            )
+          ],
+        ),
+        const SizedBox(height: 20),
+        // Categories
+        SizedBox(
+          height: 40,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(12),
+                  color: const Color(0xFFE1F0F5),
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                padding: const EdgeInsets.all(12),
-                child: const Icon(Icons.tune, color: Colors.white),
-              )
-            ],
+                child: Text(categories[index], style: const TextStyle(fontWeight: FontWeight.bold)),
+              );
+            },
           ),
-          const SizedBox(height: 20),
-          // Categories
-          SizedBox(
-            height: 40,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                return Container(
+        ),
+        const SizedBox(height: 20),
+        // Top Trips
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Text("Top Trips", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text("See All", style: TextStyle(color: Colors.redAccent)),
+          ],
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          height: 240,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: topTrips.length,
+            itemBuilder: (context, index) {
+              var trip = topTrips[index];
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TripDetailPage(trip: trip),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: 160,
                   margin: const EdgeInsets.only(right: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFE1F0F5),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(2, 2),
+                      )
+                    ],
                   ),
-                  child: Text(categories[index], style: const TextStyle(fontWeight: FontWeight.bold)),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Top Trips
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text("Top Trips", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              Text("See All", style: TextStyle(color: Colors.redAccent)),
-            ],
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 240,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: topTrips.length,
-              itemBuilder: (context, index) {
-                var trip = topTrips[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TripDetailPage(trip: trip),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    width: 160,
-                    margin: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(2, 2),
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                          child: Image.network(trip['image']!, height: 120, width: double.infinity, fit: BoxFit.cover),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(trip['title']!, style: const TextStyle(fontWeight: FontWeight.bold)),
-                              const SizedBox(height: 4),
-                              Text(trip['location']!, style: const TextStyle(color: Colors.grey)),
-                              const SizedBox(height: 4),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(trip['price']!, style: const TextStyle(color: Colors.redAccent)),
-                                  const Icon(Icons.favorite_border, size: 18),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Group Trips
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text("Group Trips", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              Text("See All", style: TextStyle(color: Colors.redAccent)),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 4,
-                  offset: Offset(2, 2),
-                )
-              ],
-            ),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    'https://i.pinimg.com/736x/c5/dc/56/c5dc5678534a672c91d9d70ea1cf0014.jpg',
-                    height: 80,
-                    width: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                const Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Mountain Trip", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("Mount Everest Base Camp"),
-                      Text("Nepal"),
-                      SizedBox(height: 6),
-                      LinearProgressIndicator(
-                        value: 0.8,
-                        backgroundColor: Colors.grey,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+                      ClipRRect(
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                        child: Image.network(trip['image']!, height: 120, width: double.infinity, fit: BoxFit.cover),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(trip['title']!, style: const TextStyle(fontWeight: FontWeight.bold)),
+                            const SizedBox(height: 4),
+                            Text(trip['location']!, style: const TextStyle(color: Colors.grey)),
+                            const SizedBox(height: 4),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(trip['price']!, style: const TextStyle(color: Colors.redAccent)),
+                                const Icon(Icons.favorite_border, size: 18),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                )
-              ],
-            ),
+                ),
+              );
+            },
           ),
-          const SizedBox(height: 20),
-        ],
-      ),
+        ),
+        const SizedBox(height: 20),
+        // Featured Packages
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Text("Featured Packages", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text("See All", style: TextStyle(color: Colors.redAccent)),
+          ],
+        ),
+        const SizedBox(height: 10),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: featuredPackages.length,
+          itemBuilder: (context, index) {
+            var package = featuredPackages[index];
+            return Card(
+              margin: const EdgeInsets.only(bottom: 10),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(
+                        package['image']!,
+                        height: 80,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(package['title']!, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          const SizedBox(height: 5),
+                          Text(package['location']!, style: const TextStyle(color: Colors.grey)),
+                          const SizedBox(height: 5),
+                          Text(package['duration']!, style: const TextStyle(color: Colors.grey, fontStyle: FontStyle.italic)),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 20),
+      ],
     );
   }
 } 
