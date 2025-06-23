@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:trek/features/booking/presentation/view/bookings_page.dart';
+import 'package:trek/features/chat/presentation/view/chat_page.dart';
+import 'package:trek/features/home/presentation/view/home_content.dart';
+import 'package:trek/features/location/presentation/view/location_page.dart';
+import 'package:trek/features/profile/presentation/view/profile_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -9,6 +14,14 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    const HomeContent(),
+    const LocationPage(),
+    const BookingsPage(),
+    const ChatPage(),
+    const ProfilePage(),
+  ];
 
   final List<String> categories = ['Lakes', 'Mountain', 'Forest', 'Sea'];
 
@@ -45,205 +58,38 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F6F6),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Row(
-          children: [
-            Icon(Icons.location_on_outlined, color: Colors.black),
-            SizedBox(width: 4),
-            Text("Kathmandu, Nepal", style: TextStyle(color: Colors.black, fontSize: 16)),
-          ],
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: Icon(Icons.notifications, color: Colors.black),
-          )
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        children: [
-          const SizedBox(height: 10),
-          // Search Bar
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: const EdgeInsets.all(12),
-                child: const Icon(Icons.tune, color: Colors.white),
-              )
-            ],
-          ),
-          const SizedBox(height: 20),
-          // Categories
-          SizedBox(
-            height: 40,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE1F0F5),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(categories[index], style: const TextStyle(fontWeight: FontWeight.bold)),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Top Trips
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text("Top Trips", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              Text("See All", style: TextStyle(color: Colors.redAccent)),
-            ],
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 240,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: topTrips.length,
-              itemBuilder: (context, index) {
-                var trip = topTrips[index];
-                return Container(
-                  width: 160,
-                  margin: const EdgeInsets.only(right: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        offset: Offset(2, 2),
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                        child: Image.network(trip['image']!, height: 120, width: double.infinity, fit: BoxFit.cover),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(trip['title']!, style: const TextStyle(fontWeight: FontWeight.bold)),
-                            const SizedBox(height: 4),
-                            Text(trip['location']!, style: const TextStyle(color: Colors.grey)),
-                            const SizedBox(height: 4),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(trip['price']!, style: const TextStyle(color: Colors.redAccent)),
-                                const Icon(Icons.favorite_border, size: 18),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Group Trips
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text("Group Trips", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              Text("See All", style: TextStyle(color: Colors.redAccent)),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 4,
-                  offset: Offset(2, 2),
-                )
-              ],
-            ),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    'https://i.pinimg.com/736x/c5/dc/56/c5dc5678534a672c91d9d70ea1cf0014.jpg',
-                    height: 80,
-                    width: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Mountain Trip", style: TextStyle(fontWeight: FontWeight.bold)),
-                      const Text("Mount Everest Base Camp"),
-                      const Text("Nepal"),
-                      const SizedBox(height: 6),
-                      const LinearProgressIndicator(
-                        value: 0.8,
-                        backgroundColor: Colors.grey,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-        ],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.location_on), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-        ],
         currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.redAccent,
         unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.location_on),
+            label: 'Location',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book_online),
+            label: 'Bookings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble),
+            label: 'Chat',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
