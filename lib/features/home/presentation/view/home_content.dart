@@ -1,66 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:trek/features/trips/presentation/view/trip_detail_page.dart';
+import '../../../trips/presentation/view/trip_detail_page.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
 
-  final List<String> categories = const ['Lakes', 'Mountain', 'Forest', 'Sea'];
+  final List<String> categories = const ['Vape Kits', 'E-Liquids', 'Pods', 'Disposables'];
 
   final List<Map<String, String>> topTrips = const [
     {
-      'title': 'Rara Lake',
-      'location': 'Nepal',
-      'price': '\$40 /visit',
-      'rating': '4.5',
-      'image': 'https://i.pinimg.com/736x/86/82/e1/8682e16c492f150bd46e07e421adf5f2.jpg',
-      'description': 'Known as the "Queen of Lakes," Rara is the largest lake in Nepal. Surrounded by lush forests, it offers a tranquil retreat with stunning reflections of the Himalayas.'
-    },
-    {
-      'title': 'Tilicho Lake',
-      'location': 'Nepal',
-      'price': '\$40 /visit',
-      'rating': '4.5',
-      'image': 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?w=800',
-      'description': 'One of the highest lakes in the world, Tilicho is a breathtaking turquoise gem nestled in the Annapurna mountain range. A challenging yet rewarding trek for adventurers.'
-    },
-    {
-      'title': 'Shey-Phoksundo Lake',
-      'location': 'Nepal',
-      'price': '\$40 /visit',
-      'rating': '4.5',
-      'image': 'https://i.pinimg.com/736x/eb/01/e5/eb01e564d2fc2b5c4c64ef7da9f1480b.jpg',
-      'description': 'A sacred alpine lake with mesmerizing deep blue waters, located in the remote Dolpo region. Its unique beauty and cultural significance make it a must-see destination.'
-    },
-    {
-      'title': 'Annapurna Base Camp',
-      'location': 'Nepal',
-      'price': '\$60 /visit',
+      'title': 'SMOK Nord 4 Kit',
+      'location': 'Starter Kit',
+      'price': '\$29.99',
       'rating': '4.8',
-      'image': 'https://i.pinimg.com/736x/91/51/51/9151510b07cc9fc508a9b57b95d0d766.jpg',
-      'description': 'Trek through diverse landscapes to the base of the majestic Annapurna massif. This classic trek offers unparalleled mountain views and a deep cultural experience.'
+      'image': 'https://www.vaporesso.com/hubfs/SMOK-Nord-4.jpg',
+      'description': 'A versatile pod system with adjustable wattage and long battery life. Perfect for beginners and pros.'
     },
     {
-      'title': 'Gokyo Lakes',
-      'location': 'Nepal',
-      'price': '\$55 /visit',
+      'title': 'GeekVape Aegis X',
+      'location': 'Advanced Mod',
+      'price': '\$49.99',
       'rating': '4.7',
-      'image': 'https://i.pinimg.com/736x/98/5f/40/985f40989da0986230256187a45cc471.jpg',
-      'description': 'A series of six spectacular glacial lakes in the Sagarmatha National Park. The trek to Gokyo Ri offers panoramic views of Everest and surrounding peaks.'
+      'image': 'https://www.vaporesso.com/hubfs/GeekVape-Aegis-X.jpg',
+      'description': 'A powerful, durable mod with a large display and customizable settings for advanced vapers.'
+    },
+    {
+      'title': 'JUUL Device',
+      'location': 'Pod System',
+      'price': '\$24.99',
+      'rating': '4.5',
+      'image': 'https://www.vaporesso.com/hubfs/JUUL-Device.jpg',
+      'description': 'The classic, ultra-portable pod vape. Sleek, simple, and satisfying.'
+    },
+    {
+      'title': 'Elf Bar BC5000',
+      'location': 'Disposable',
+      'price': '\$15.99',
+      'rating': '4.6',
+      'image': 'https://www.vaporesso.com/hubfs/Elf-Bar-BC5000.jpg',
+      'description': 'A high-capacity disposable vape with great flavors and long-lasting battery.'
+    },
+    {
+      'title': 'Naked 100 E-Liquid',
+      'location': 'E-Liquid',
+      'price': '\$12.99',
+      'rating': '4.9',
+      'image': 'https://www.vaporesso.com/hubfs/Naked-100-E-Liquid.jpg',
+      'description': 'Premium e-liquid with a variety of delicious flavors for every palate.'
     },
   ];
 
   final List<Map<String, String>> featuredPackages = const [
     {
-      'title': 'Everest Base Camp',
-      'location': 'Khumbu, Nepal',
-      'duration': '14 days',
-      'image': 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=800',
+      'title': 'Vaporesso Luxe PM40',
+      'location': 'Pod Mod',
+      'duration': 'New Arrival',
+      'image': 'https://www.vaporesso.com/hubfs/Vaporesso-Luxe-PM40.jpg',
     },
     {
-      'title': 'Annapurna Circuit',
-      'location': 'Annapurna, Nepal',
-      'duration': '18 days',
-      'image': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+      'title': 'Voopoo Drag X Plus',
+      'location': 'Advanced Mod',
+      'duration': 'Best Seller',
+      'image': 'https://www.vaporesso.com/hubfs/Voopoo-Drag-X-Plus.jpg',
     }
   ];
 
@@ -75,7 +75,7 @@ class HomeContent extends StatelessWidget {
             Expanded(
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Search',
+                  hintText: 'Search for vapes, e-liquids, or accessories',
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -87,7 +87,7 @@ class HomeContent extends StatelessWidget {
             const SizedBox(width: 10),
             Container(
               decoration: BoxDecoration(
-                color: Colors.redAccent,
+                color: Color(0xFF26E5A6),
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.all(12),
@@ -107,7 +107,7 @@ class HomeContent extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 10),
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE1F0F5),
+                  color: Color(0xFF6C47FF).withAlpha(25),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(categories[index], style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -116,11 +116,11 @@ class HomeContent extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        // Top Trips
+        // Top Products
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: const [
-            Text("Top Trips", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text("Top Products", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             Text("See All", style: TextStyle(color: Colors.redAccent)),
           ],
         ),
@@ -174,7 +174,7 @@ class HomeContent extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(trip['price']!, style: const TextStyle(color: Colors.redAccent)),
+                                Text('\$${trip['price']!}', style: const TextStyle(color: Colors.redAccent)),
                                 const Icon(Icons.favorite_border, size: 18),
                               ],
                             ),
@@ -189,11 +189,11 @@ class HomeContent extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        // Featured Packages
+        // Featured Products
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: const [
-            Text("Featured Packages", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text("Featured Products", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             Text("See All", style: TextStyle(color: Colors.redAccent)),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import '../entities/user_entity.dart';
 import '../repositories/auth_repository.dart';
 
@@ -6,7 +7,7 @@ class SignupUseCase {
 
   SignupUseCase(this.repository);
 
-  Future<void> call(String username, String email, String password) {
-    return repository.signup(UserEntity(username: username, email: email, password: password));
+  Future<Either<String, UserEntity>> call(UserEntity user, String password) {
+    return repository.register(user, password);
   }
 } 

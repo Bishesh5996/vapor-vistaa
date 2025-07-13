@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import '../entities/user_entity.dart';
 import '../repositories/auth_repository.dart';
 
@@ -6,7 +7,7 @@ class LoginUseCase {
 
   LoginUseCase(this.repository);
 
-  Future<UserEntity?> call(String username, String password) {
-    return repository.login(username, password);
+  Future<Either<String, UserEntity>> call(String email, String password) {
+    return repository.login(email, password);
   }
 } 

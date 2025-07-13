@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/entities/user_entity.dart';
 import '../bloc/auth_bloc.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:io' show Platform;
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -9,10 +12,13 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _usernameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
+  bool _wasLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +33,9 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
           ),
+          Container(
+            color: Color(0xAA6C47FF), // semi-transparent overlay
+          ),
           Center(
             child: Container(
               margin: const EdgeInsets.all(20),
@@ -35,12 +44,18 @@ class _SignUpPageState extends State<SignUpPage> {
                 color: Colors.white.withAlpha((0.95 * 255).toInt()),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: BlocConsumer<AuthCubit, AuthState>(
+              child: BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
-                  if (state is AuthSignupSuccess) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Signup successful! Please log in.')));
+                  if (state is AuthLoading) {
+                    _wasLoading = true;
+                  } else if (state is Unauthenticated && _wasLoading) {
+                    _wasLoading = false;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Registration successful! Please log in.')),
+                    );
                     Navigator.pushReplacementNamed(context, '/login');
                   } else if (state is AuthError) {
+                    _wasLoading = false;
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
                   }
                 },
@@ -48,29 +63,46 @@ class _SignUpPageState extends State<SignUpPage> {
                   return ListView(
                     shrinkWrap: true,
                     children: [
-                      Image.asset('assets/image/trek_logo.png', height: 60),
+                      if (!(Platform.environment.containsKey('FLUTTER_TEST') || kIsWeb))
+                        // Image.asset('assets/image/vaporvista_logo.png', height: 60),
+                        const SizedBox(height: 20),
                       const SizedBox(height: 20),
                       TextField(
-                        controller: _usernameController,
-                        decoration: InputDecoration(
-                          labelText: 'Username',
+                        controller: _firstNameController,
+                        decoration: const InputDecoration(
+                          labelText: 'First Name',
                           border: OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.check_circle, color: Colors.green),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextField(
+                        controller: _lastNameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Last Name',
+                          border: OutlineInputBorder(),
                         ),
                       ),
                       const SizedBox(height: 20),
                       TextField(
                         controller: _emailController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Email',
                           border: OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.check_circle, color: Colors.green),
                         ),
                       ),
                       const SizedBox(height: 20),
                       TextField(
+                        controller: _phoneController,
+                        decoration: const InputDecoration(
+                          labelText: 'Phone',
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.phone,
+                      ),
+                      const SizedBox(height: 20),
+                      TextField(
                         controller: _passwordController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Password',
                           border: OutlineInputBorder(),
                         ),
@@ -104,13 +136,15 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         onPressed: () {
-                          context.read<AuthCubit>().signup(
-                            _usernameController.text,
-                            _emailController.text,
-                            _passwordController.text,
+                          final user = UserEntity(
+                            firstName: _firstNameController.text,
+                            lastName: _lastNameController.text,
+                            email: _emailController.text,
+                            phone: _phoneController.text,
                           );
+                          context.read<AuthBloc>().add(RegisterRequested(user, _passwordController.text));
                         },
-                        child: state is AuthLoading ? CircularProgressIndicator() : const Text("Sign up"),
+                        child: state is AuthLoading ? const CircularProgressIndicator() : const Text("Sign up"),
                       ),
                       const SizedBox(height: 10),
                       const Center(child: Text("Already have an account?")),

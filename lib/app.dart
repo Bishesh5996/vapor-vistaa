@@ -1,39 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'core/di/injection_container.dart';
+import 'features/auth/domain/repositories/auth_repository.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
-import 'features/auth/data/datasources/auth_local_data_source.dart';
-import 'features/auth/data/repositories/auth_repository_impl.dart';
-import 'features/auth/domain/usecases/login_usecase.dart';
-import 'features/auth/domain/usecases/signup_usecase.dart';
 import 'features/auth/presentation/view/login_page.dart';
 import 'features/auth/presentation/view/signup_page.dart';
 import 'features/home/presentation/view/dashboard_page.dart';
+import 'features/home/presentation/view/splash_screen.dart';
+import 'features/profile/presentation/view/profile_page.dart';
+import 'theme/theme_data.dart';
 
 class TrekApp extends StatelessWidget {
   const TrekApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final localDataSource = AuthLocalDataSourceImpl();
-    final repository = AuthRepositoryImpl(localDataSource);
-    final loginUseCase = LoginUseCase(repository);
-    final signupUseCase = SignupUseCase(repository);
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => AuthCubit(
-            loginUseCase: loginUseCase,
-            signupUseCase: signupUseCase,
-          ),
+          create: (_) => AuthBloc(authRepository: sl<AuthRepository>()),
         ),
       ],
       child: MaterialApp(
-        initialRoute: '/signup',
+        title: 'vaporvista',
+        theme: getApplicationTheme(),
+        home: const SplashScreen(),
         routes: {
           '/signup': (context) => const SignUpPage(),
           '/login': (context) => const LoginPage(),
           '/dashboard': (context) => const DashboardPage(),
+          '/profile': (context) => const ProfilePage(),
         },
       ),
     );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/auth_bloc.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:io' show Platform;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,6 +16,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Reset AuthBloc state to initial when opening login page
+    context.read<AuthBloc>().add(AuthResetRequested());
     return Scaffold(
       body: Stack(
         children: [
@@ -25,6 +29,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+          Container(
+            color: Color(0xAA6C47FF), // semi-transparent overlay
+          ),
           Center(
             child: Container(
               margin: const EdgeInsets.all(20),
@@ -33,9 +40,9 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.white.withAlpha((0.95 * 255).toInt()),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: BlocConsumer<AuthCubit, AuthState>(
+              child: BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
-                  if (state is AuthLoginSuccess) {
+                  if (state is Authenticated) {
                     Navigator.pushReplacementNamed(context, '/dashboard');
                   } else if (state is AuthError) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
@@ -45,14 +52,14 @@ class _LoginPageState extends State<LoginPage> {
                   return ListView(
                     shrinkWrap: true,
                     children: [
-                      Image.asset('assets/image/trek_logo.png', height: 60),
-                      const SizedBox(height: 20),
+                      if (!(Platform.environment.containsKey('FLUTTER_TEST') || kIsWeb))
+                        // Image.asset('assets/image/vaporvista_logo.png', height: 60),
+                        const SizedBox(height: 20),
                       TextField(
                         controller: _usernameController,
                         decoration: InputDecoration(
-                          labelText: 'Username',
+                          labelText: 'Email',
                           prefixIcon: Icon(Icons.email),
-                          suffixIcon: Icon(Icons.check_circle, color: Colors.green),
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -83,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         onPressed: () {
-                          context.read<AuthCubit>().login(_usernameController.text, _passwordController.text);
+                          context.read<AuthBloc>().add(LoginRequested(_usernameController.text, _passwordController.text));
                         },
                         child: state is AuthLoading ? CircularProgressIndicator() : const Text("Login"),
                       ),

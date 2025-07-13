@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trek/features/booking/presentation/view/bookings_page.dart';
-import 'package:trek/features/home/presentation/view/home_content.dart';
-import 'package:trek/features/profile/presentation/view/profile_page.dart';
+import '../../../booking/presentation/view/bookings_page.dart';
+import 'home_content.dart';
+import '../../../profile/presentation/view/profile_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -19,29 +19,29 @@ class _DashboardPageState extends State<DashboardPage> {
     const ProfilePage(),
   ];
 
-  final List<String> categories = ['Lakes', 'Mountain', 'Forest', 'Sea'];
+  final List<String> categories = ['Vape Kits', 'E-Liquids', 'Pods', 'Disposables'];
 
   final List<Map<String, String>> topTrips = [
     {
-      'title': 'Rara Lake',
-      'location': 'Nepal',
-      'price': '\$40 /visit',
-      'rating': '4.5',
-      'image': 'https://i.pinimg.com/736x/86/82/e1/8682e16c492f150bd46e07e421adf5f2.jpg'
+      'title': 'SMOK Nord 4 Kit',
+      'location': 'Starter Kit',
+      'price': '\$29.99',
+      'rating': '4.8',
+      'image': 'https://www.vaporesso.com/hubfs/SMOK-Nord-4.jpg',
     },
     {
-      'title': 'Tilicho Lake',
-      'location': 'Nepal',
-      'price': '\$40 /visit',
-      'rating': '4.5',
-      'image': 'https://i.pinimg.com/736x/6e/75/54/6e7554806054be9939fd9ee89c632e21.jpg'
+      'title': 'GeekVape Aegis X',
+      'location': 'Advanced Mod',
+      'price': '\$49.99',
+      'rating': '4.7',
+      'image': 'https://www.vaporesso.com/hubfs/GeekVape-Aegis-X.jpg',
     },
     {
-      'title': 'Shey-Phoksundo Lake',
-      'location': 'Nepal',
-      'price': '\$40 /visit',
+      'title': 'JUUL Device',
+      'location': 'Pod System',
+      'price': '\$24.99',
       'rating': '4.5',
-      'image': 'https://i.pinimg.com/736x/eb/01/e5/eb01e564d2fc2b5c4c64ef7da9f1480b.jpg'
+      'image': 'https://www.vaporesso.com/hubfs/JUUL-Device.jpg',
     },
   ];
 
@@ -56,20 +56,26 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       appBar: _selectedIndex == 0
           ? AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: Color(0xFF6C47FF),
               elevation: 0,
               title: const Row(
                 children: [
-                  Icon(Icons.location_on_outlined, color: Colors.black),
+                  Icon(Icons.location_on_outlined, color: Colors.white),
                   SizedBox(width: 4),
-                  Text("Kathmandu, Nepal", style: TextStyle(color: Colors.black, fontSize: 16)),
+                  Text("Kathmandu, Nepal", style: TextStyle(color: Colors.white, fontSize: 16)),
                 ],
               ),
-              actions: const [
-                Padding(
-                  padding: EdgeInsets.only(right: 16.0),
-                  child: Icon(Icons.notifications, color: Colors.black),
-                )
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.notifications, color: Colors.white),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.person, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/profile');
+                  },
+                ),
               ],
             )
           : null,
@@ -81,8 +87,9 @@ class _DashboardPageState extends State<DashboardPage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.redAccent,
+        selectedItemColor: Color(0xFF26E5A6),
         unselectedItemColor: Colors.grey,
+        backgroundColor: Colors.white,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
