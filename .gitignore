@@ -1,0 +1,5 @@
+
+# Additional Flutter files
+*.lock
+pubspec.lock
+
