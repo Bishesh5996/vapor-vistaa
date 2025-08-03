@@ -1,5 +1,10 @@
-# Vapor Vista - Complete E-commerce Platform
+# Thrift Hub - Sustainable Fashion Marketplace
 
-A full-stack Flutter mobile application with Node.js backend for premium vape product sales.
+A mobile application for buying and selling vintage and second-hand clothing.
 
-## 🚀 Project Structure
+## Features
+- Browse vintage clothing
+- Secure payment processing  
+- User authentication
+- Order tracking
+
