@@ -1,3 +1,6 @@
+[![Flutter](https://img.shields.io/badge/Flutter-Framework-blue)](https://flutter.dev)
+[![Node.js](https://img.shields.io/badge/Node.js-Backend-green)](https://nodejs.org)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 # Thrift Hub - Sustainable Fashion Marketplace
 
 A mobile application for buying and selling vintage and second-hand clothing.
