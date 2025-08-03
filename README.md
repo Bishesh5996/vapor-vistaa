@@ -18,3 +18,17 @@ A mobile application for buying and selling vintage and second-hand clothing.
 3. Make changes
 4. Submit pull request
 
+
+## Documentation Index
+- [API Documentation](docs/API.md)
+- [Setup Guide](docs/SETUP.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Testing](docs/TESTING.md)
+- [Deployment](docs/DEPLOYMENT.md)
+- [Contributing](docs/CODE_OF_CONDUCT.md)
+
+## Quick Links
+- [Frontend README](thrift-hub-frontend/README.md)
+- [Backend README](thrift-hub-backend/README.md)
+- [Changelog](docs/CHANGELOG.md)
+
