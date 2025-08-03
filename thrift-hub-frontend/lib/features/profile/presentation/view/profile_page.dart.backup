@@ -1,0 +1,509 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../auth/domain/entities/user_entity.dart';
+import 'dart:ui';
+import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
+import '../../../../core/constants/api_constants.dart';
+import '../../../../core/theme/vapor_colors.dart';
+
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AuthBloc>().add(CheckAuthStatus());
+    });
+  }
+
+  void _showEditProfileDialog(BuildContext context, UserEntity user) {
+    final firstNameController = TextEditingController(text: user.firstName);
+    final lastNameController = TextEditingController(text: user.lastName);
+    final phoneController = TextEditingController(text: user.phone);
+    
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Text(
+            'Edit Profile',
+            style: TextStyle(
+              color: VaporColors.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: firstNameController,
+                decoration: InputDecoration(
+                  labelText: 'First Name',
+                  labelStyle: TextStyle(color: VaporColors.textSecondary),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: VaporColors.accent),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: lastNameController,
+                decoration: InputDecoration(
+                  labelText: 'Last Name',
+                  labelStyle: TextStyle(color: VaporColors.textSecondary),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: VaporColors.accent),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: phoneController,
+                decoration: InputDecoration(
+                  labelText: 'Phone',
+                  labelStyle: TextStyle(color: VaporColors.textSecondary),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: VaporColors.accent),
+                  ),
+                ),
+                keyboardType: TextInputType.phone,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel', style: TextStyle(color: VaporColors.textSecondary)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: VaporColors.accent,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () async {
+                try {
+                  final dio = Dio();
+                  
+                  // Show loading
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Row(
+                        children: [
+                          SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          ),
+                          SizedBox(width: 12),
+                          Text('Updating profile...'),
+                        ],
+                      ),
+                      backgroundColor: VaporColors.primary,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                  
+                  final response = await dio.put(
+                    '${ApiConstants.baseUrl}/customers/update/${user.id}',
+                    data: {
+                      'fname': firstNameController.text.trim(),
+                      'lname': lastNameController.text.trim(),
+                      'email': user.email,
+                      'phone': phoneController.text.trim(),
+                    },
+                  );
+                  
+                  if (response.statusCode == 200) {
+                    if (mounted) {
+                      Navigator.of(context).pop();
+                      
+                      // Show success message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Row(
+                            children: [
+                              Icon(Icons.check_circle, color: Colors.white),
+                              SizedBox(width: 8),
+                              Text('✅ Profile updated successfully!'),
+                            ],
+                          ),
+                          backgroundColor: VaporColors.success,
+                        ),
+                      );
+                      
+                      // Refresh the auth state to get updated user data
+                      context.read<AuthBloc>().add(CheckAuthStatus());
+                    }
+                  } else {
+                    throw Exception('Update failed with status ${response.statusCode}');
+                  }
+                } catch (e) {
+                  print('❌ Profile update error: $e');
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Row(
+                        children: [
+                          Icon(Icons.error, color: Colors.white),
+                          SizedBox(width: 8),
+                          Expanded(child: Text('❌ Failed to update profile. Please try again.')),
+                        ],
+                      ),
+                      backgroundColor: VaporColors.error,
+                    ),
+                  );
+                }
+              },
+              child: const Text('Save', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: null,
+      body: Stack(
+        children: [
+          // Vapor Vista Background
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    VaporColors.primary,
+                    VaporColors.secondary,
+                    VaporColors.device,
+                  ],
+                  stops: [0.0, 0.6, 1.0],
+                ),
+              ),
+            ),
+          ),
+          
+          // Vapor Cloud Effects
+          Positioned(
+            top: -100,
+            right: -80,
+            child: Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    VaporColors.vapor.withOpacity(0.3),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+          
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (state is Unauthenticated) {
+                Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+              }
+            },
+            child: BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                if (state is Authenticated) {
+                  final user = state.user;
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 60),
+                        
+                        // VAPOR VISTA Logo
+                        Center(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [VaporColors.accent, VaporColors.primary],
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: VaporColors.accent.withOpacity(0.3),
+                                  blurRadius: 15,
+                                  offset: Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.cloud, color: Colors.white, size: 28),
+                                SizedBox(width: 12),
+                                Text(
+                                  'VAPOR VISTA',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        
+                        const SizedBox(height: 30),
+                        
+                        // Profile Picture Section
+                        Center(
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.person, size: 50, color: VaporColors.primary),
+                          ),
+                        ),
+                        
+                        const SizedBox(height: 40),
+                        
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.9),
+                                  borderRadius: BorderRadius.circular(25),
+                                  border: Border.all(color: VaporColors.accent.withOpacity(0.3)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: VaporColors.primary.withOpacity(0.2),
+                                      blurRadius: 20,
+                                      offset: Offset(0, 10),
+                                    ),
+                                  ],
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Account Details',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: VaporColors.primary,
+                                          ),
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: VaporColors.accent,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: IconButton(
+                                            icon: const Icon(Icons.edit, color: Colors.white, size: 20),
+                                            onPressed: () => _showEditProfileDialog(context, user),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 24),
+                                    
+                                    // User Name - FIXED to display properly
+                                    _buildInfoRow(
+                                      Icons.person,
+                                      'Name',
+                                      _getDisplayName(user),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    
+                                    // Email
+                                    _buildInfoRow(
+                                      Icons.email,
+                                      'Email',
+                                      user.email,
+                                    ),
+                                    const SizedBox(height: 20),
+                                    
+                                    // Phone
+                                    _buildInfoRow(
+                                      Icons.phone,
+                                      'Phone',
+                                      user.phone.isEmpty ? 'Not provided' : user.phone,
+                                    ),
+                                    const SizedBox(height: 20),
+                                    
+                                    // Role
+                                    _buildInfoRow(
+                                      Icons.verified_user,
+                                      'Account Type',
+                                      user.role.toUpperCase(),
+                                    ),
+                                    
+                                    const SizedBox(height: 30),
+                                    const Divider(height: 32, thickness: 1, color: Colors.grey),
+                                    
+                                    // Logout Button
+                                    Center(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [VaporColors.error, Colors.red.shade600],
+                                          ),
+                                          borderRadius: BorderRadius.circular(25),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: VaporColors.error.withOpacity(0.3),
+                                              blurRadius: 8,
+                                              offset: Offset(0, 4),
+                                            ),
+                                          ],
+                                        ),
+                                        child: ElevatedButton.icon(
+                                          icon: const Icon(Icons.logout, color: Colors.white),
+                                          label: const Text(
+                                            'Logout',
+                                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.transparent,
+                                            shadowColor: Colors.transparent,
+                                            minimumSize: const Size(200, 50),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(25),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            context.read<AuthBloc>().add(LogoutRequested());
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                      ],
+                    ),
+                  );
+                } else if (state is AuthLoading) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(VaporColors.accent),
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          'Loading profile...',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.error_outline, size: 64, color: Colors.white),
+                        SizedBox(height: 16),
+                        Text(
+                          'Not logged in',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Helper method to get display name
+  String _getDisplayName(UserEntity user) {
+    String firstName = user.firstName.trim();
+    String lastName = user.lastName.trim();
+    
+    if (firstName.isNotEmpty && lastName.isNotEmpty) {
+      return '$firstName $lastName';
+    } else if (firstName.isNotEmpty) {
+      return firstName;
+    } else if (lastName.isNotEmpty) {
+      return lastName;
+    } else {
+      // Try to use email as fallback
+      String emailName = user.email.split('@').first;
+      return emailName.isNotEmpty ? emailName : 'Vapor Vista User';
+    }
+  }
+
+  Widget _buildInfoRow(IconData icon, String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: VaporColors.accent,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(icon, color: Colors.white, size: 20),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: VaporColors.textSecondary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 2),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: VaporColors.textPrimary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}

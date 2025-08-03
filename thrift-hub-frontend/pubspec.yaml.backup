@@ -1,0 +1,65 @@
+name: vapor_vista
+description: A premium vape products application.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  flutter_bloc: ^8.1.3
+  equatable: ^2.0.5
+  
+  # HTTP and API
+  http: ^1.1.0
+  dio: ^5.3.2
+  
+  # Storage
+  shared_preferences: ^2.2.2
+  
+  # Navigation
+  go_router: ^12.0.0
+  
+  # Dependency Injection
+  get_it: ^7.6.4
+  
+  # JSON Serialization
+  json_annotation: ^4.8.1
+  
+  # UI Components
+  cupertino_icons: ^1.0.6
+  lottie: ^2.7.0
+  cached_network_image: ^3.3.0
+  flutter_svg: ^2.0.9
+  
+  # Utils
+  intl: ^0.18.1
+  logger: ^2.0.2+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  json_serializable: ^6.7.1
+  build_runner: ^2.4.7
+
+flutter:
+  uses-material-design: true
+  
+  # Add your vape product images as assets
+  assets:
+    - assets/image/
+    - assets/image/nord4.jpeg
+    - assets/image/voopoodragxplus.jpeg
+    - assets/image/vaporessoxros3mini.jpeg
+    - assets/image/geekvapeaegislegend2.jpeg
+    - assets/image/lostvapeorionbar7500.jpeg
+    - assets/image/uwellcaliburng2.jpeg
+    - assets/image/smoktech-smok-rpm-4-pod-kit__05628.jpg
+    - assets/image/Freemax Maxus Kit_Banner5-w.webp
+    - assets/image/Elfbarbc5000.webp
+    - assets/image/innokin-adept-zlide-product-details-1-vape-club.jpg
